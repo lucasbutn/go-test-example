@@ -11,6 +11,7 @@ import (
 	"net/http/httptest"
 	"strconv"
 	"test-example/balance"
+	"test-example/balance/mocks"
 	"testing"
 )
 
@@ -20,14 +21,14 @@ import (
 	THEN the balance should be 60$
  */
 
-var client *balance.MockClient
+var client *mocks.MockClient
 var controller balance.Controller
 
 func TestBalance(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
-	client = balance.NewMockClient(mockCtrl)
+	client = mocks.NewMockClient(mockCtrl)
 
 	retrier := balance.NewDelayedRetrier(2, 500)
 

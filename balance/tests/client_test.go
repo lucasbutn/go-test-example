@@ -1,10 +1,11 @@
-package balance
+package tests
 
 import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"net/http"
 	"net/http/httptest"
+	"test-example/balance"
 	"testing"
 )
 
@@ -15,15 +16,15 @@ func TestGetAllMovements(t *testing.T) {
 	testServer := getServer(200, `[{"userId":"anyUserId","time":1596699342,"description":"DEPOSIT","value":1000.0},{"userId":"anyUserId","time":1596789342,"description":"PURCHASE","value":-100.0}]`)
 	defer testServer.Close()
 
-	restClient, _ := NewRestClient(testServer.URL)
+	restClient, _ := balance.NewRestClient(testServer.URL)
 
 	movements, err := restClient.GetAllMovements("anyUserId")
 
 	require.Nil(t, err)
 
 	assert.True(t, len(movements) == 2)
-	assert.Equal(t, &Movement{"anyUserId", 1596699342, "DEPOSIT", 1000.0}, movements[0])
-	assert.Equal(t, &Movement{"anyUserId", 1596789342, "PURCHASE", -100.0}, movements[1])
+	assert.Equal(t, &balance.Movement{"anyUserId", 1596699342, "DEPOSIT", 1000.0}, movements[0])
+	assert.Equal(t, &balance.Movement{"anyUserId", 1596789342, "PURCHASE", -100.0}, movements[1])
 }
 
 func TestGetAllMovementsBadRequest(t *testing.T) {
@@ -31,7 +32,7 @@ func TestGetAllMovementsBadRequest(t *testing.T) {
 	testServer := getServer(400, "")
 	defer testServer.Close()
 
-	restClient,_ := NewRestClient(testServer.URL)
+	restClient,_ := balance.NewRestClient(testServer.URL)
 
 	_, err := restClient.GetAllMovements("anyUserId")
 

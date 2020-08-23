@@ -2,11 +2,12 @@
 // Source: client.go
 
 // Package balance is a generated GoMock package.
-package balance
+package mocks
 
 import (
 	gomock "github.com/golang/mock/gomock"
 	reflect "reflect"
+	"test-example/balance"
 )
 
 // MockClient is a mock of Client interface
@@ -33,10 +34,10 @@ func (m *MockClient) EXPECT() *MockClientMockRecorder {
 }
 
 // GetAllMovements mocks base method
-func (m *MockClient) GetAllMovements(userId string) ([]*Movement, error) {
+func (m *MockClient) GetAllMovements(userId string) ([]*balance.Movement, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAllMovements", userId)
-	ret0, _ := ret[0].([]*Movement)
+	ret0, _ := ret[0].([]*balance.Movement)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

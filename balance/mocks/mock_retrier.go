@@ -2,7 +2,7 @@
 // Source: retrier.go
 
 // Package balance is a generated GoMock package.
-package balance
+package mocks
 
 import (
 	gomock "github.com/golang/mock/gomock"

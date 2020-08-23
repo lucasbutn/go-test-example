@@ -2,11 +2,12 @@
 // Source: service.go
 
 // Package balance is a generated GoMock package.
-package balance
+package mocks
 
 import (
 	gomock "github.com/golang/mock/gomock"
 	reflect "reflect"
+	"test-example/balance"
 )
 
 // MockService is a mock of Service interface
@@ -33,10 +34,10 @@ func (m *MockService) EXPECT() *MockServiceMockRecorder {
 }
 
 // GetBalance mocks base method
-func (m *MockService) GetBalance(userId string) (*Balance, error) {
+func (m *MockService) GetBalance(userId string) (*balance.Balance, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetBalance", userId)
-	ret0, _ := ret[0].(*Balance)
+	ret0, _ := ret[0].(*balance.Balance)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

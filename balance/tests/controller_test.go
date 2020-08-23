@@ -1,4 +1,4 @@
-package balance
+package tests
 
 import (
 	"encoding/json"
@@ -8,6 +8,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"net/http"
 	"net/http/httptest"
+	balance2 "test-example/balance"
+	"test-example/balance/mocks"
 	"testing"
 )
 
@@ -16,10 +18,10 @@ func TestGetBalanceOk(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
-	mockService := NewMockService(mockCtrl)
-	mockService.EXPECT().GetBalance(gomock.Eq("12345")).Times(1).Return(&Balance{"12345", 100.0}, nil)
+	mockService := mocks.NewMockService(mockCtrl)
+	mockService.EXPECT().GetBalance(gomock.Eq("12345")).Times(1).Return(&balance2.Balance{"12345", 100.0}, nil)
 
-	controller,err := NewController(mockService)
+	controller,err := balance2.NewController(mockService)
 	require.Empty(t, err)
 
 	// Act
@@ -33,7 +35,7 @@ func TestGetBalanceOk(t *testing.T) {
 	assert.Equal(t, http.StatusOK, writer.Result().StatusCode)
 
 	bytes := writer.Body.Bytes()
-	balance := Balance{}
+	balance := balance2.Balance{}
 	err = json.Unmarshal(bytes, &balance)
 
 	assert.Nil(t, err)
@@ -46,9 +48,9 @@ func TestGetBalanceBadRequest(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
-	mockService := NewMockService(mockCtrl)
+	mockService := mocks.NewMockService(mockCtrl)
 
-	controller,err := NewController(mockService)
+	controller,err := balance2.NewController(mockService)
 	require.Empty(t, err)
 
 	// Act
@@ -68,10 +70,10 @@ func TestGetBalanceNotFound(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
-	mockService := NewMockService(mockCtrl)
+	mockService := mocks.NewMockService(mockCtrl)
 	mockService.EXPECT().GetBalance(gomock.Any()).Times(1).Return(nil, errors.New("an unexpected internal error"))
 
-	controller,err := NewController(mockService)
+	controller,err := balance2.NewController(mockService)
 	require.Empty(t, err)
 
 	// Act

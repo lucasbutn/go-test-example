@@ -1,10 +1,12 @@
-package balance
+package tests
 
 import (
 	"errors"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+	"test-example/balance"
+	"test-example/balance/mocks"
 	"testing"
 )
 
@@ -14,21 +16,21 @@ import (
 type BalanceTestSuite struct {
 	suite.Suite
 	mockCtrl    *gomock.Controller
-	mockRetrier *MockRetrier
-	mockClient  *MockClient
-	service     Service
+	mockRetrier *mocks.MockRetrier
+	mockClient  *mocks.MockClient
+	service     balance.Service
 }
 
 
 // Make sure all common variables is set before each test
 func (suite *BalanceTestSuite) SetupTest() {
 	suite.mockCtrl = gomock.NewController(suite.T())
-	suite.mockRetrier = NewMockRetrier(suite.mockCtrl)
+	suite.mockRetrier = mocks.NewMockRetrier(suite.mockCtrl)
 
-	suite.mockClient = NewMockClient(suite.mockCtrl)
+	suite.mockClient = mocks.NewMockClient(suite.mockCtrl)
 
 	var err error
-	suite.service, err = NewService(suite.mockClient, suite.mockRetrier)
+	suite.service, err = balance.NewService(suite.mockClient, suite.mockRetrier)
 
 	assert.Nil(suite.T(), err)
 }
@@ -42,7 +44,7 @@ func (suite *BalanceTestSuite) TearDownTest() {
 // All methods that begin with "Test" are run as tests within a suite.
 func (suite *BalanceTestSuite) TestGetBalance() {
 
-	suite.mockClient.EXPECT().GetAllMovements(gomock.Any()).Times(1).Return([]*Movement{
+	suite.mockClient.EXPECT().GetAllMovements(gomock.Any()).Times(1).Return([]*balance.Movement{
 		{"1", 1597191115, "DEPOSIT", 100.0},
 		{"1", 1597193100, "PURCHASE", -25.0},
 		{"1", 1597196872, "PURCHASE", -15.0}}, nil)
@@ -52,10 +54,10 @@ func (suite *BalanceTestSuite) TestGetBalance() {
 			arg()
 	}).Return(nil)
 
-	balance, err := suite.service.GetBalance("1")
+	balanc, err := suite.service.GetBalance("1")
 
 	assert.Nil(suite.T(), err)
-	assert.Equal(suite.T(), &Balance{"1", 60.0}, balance)
+	assert.Equal(suite.T(), &balance.Balance{"1", 60.0}, balanc)
 
 }
 

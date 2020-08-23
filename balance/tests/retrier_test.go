@@ -1,8 +1,9 @@
-package balance
+package tests
 
 import (
 	"errors"
 	"github.com/stretchr/testify/assert"
+	"test-example/balance"
 	"testing"
 )
 
@@ -16,7 +17,7 @@ func TestSuiteRetrier(t *testing.T) {
 }
 
 func testExecuteOkNoRetries(t *testing.T) {
-	retrier := NewDelayedRetrier(3, 0)
+	retrier := balance.NewDelayedRetrier(3, 0)
 
 	var execTimes int
 	err := retrier.Run(func() error {
@@ -29,7 +30,7 @@ func testExecuteOkNoRetries(t *testing.T) {
 }
 
 func testExecuteOkTwoRetries(t *testing.T) {
-	retrier := NewDelayedRetrier(3, 0)
+	retrier := balance.NewDelayedRetrier(3, 0)
 
 	var execTimes int
 	err := retrier.Run(func() error {
@@ -45,7 +46,7 @@ func testExecuteOkTwoRetries(t *testing.T) {
 }
 
 func testExecuteErrorAllRetries(t *testing.T) {
-	retrier := NewDelayedRetrier(3, 0)
+	retrier := balance.NewDelayedRetrier(3, 0)
 
 	var execTimes int
 	err := retrier.Run(func() error {

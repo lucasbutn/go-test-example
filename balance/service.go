@@ -1,6 +1,6 @@
 package balance
 
-//go:generate mockgen -destination=../balance/mock_service.go -package=balance -source=service.go Service
+//go:generate mockgen -destination=../balance/mocks/mock_service.go -package=mocks -source=service.go Service
 import (
 	"errors"
 )

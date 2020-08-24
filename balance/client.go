@@ -1,6 +1,6 @@
 package balance
 
-//go:generate mockgen -destination=../balance/mock_client.go -package=balance -source=client.go Client
+//go:generate mockgen -destination=../balance/mocks/mock_client.go -package=mocks -source=client.go Client
 
 import (
 	"encoding/json"

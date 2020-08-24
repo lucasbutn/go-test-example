@@ -1,7 +1,5 @@
 package balance
 
-//go:generate mockgen -destination=../balance/mock_controller.go -package=balance -source=controller.go Service
-
 import (
 	"encoding/json"
 	"errors"

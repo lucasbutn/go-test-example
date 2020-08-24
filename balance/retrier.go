@@ -1,6 +1,6 @@
 package balance
 
-//go:generate mockgen -destination=../balance/mock_retrier.go -package=balance -source=retrier.go Retrier
+//go:generate mockgen -destination=../balance/mocks/mock_retrier.go -package=mocks -source=retrier.go Retrier
 
 import (
 	"time"
